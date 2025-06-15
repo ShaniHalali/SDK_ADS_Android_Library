@@ -14,10 +14,11 @@ public class Ad {
     private String name;
     private String package_name;
     private String updated_at;
+    private String category;
 
     public Ad() {
     }
-    public Ad(String ad_link, String ad_location, String ad_type, String beginning_date, String created_at, String description, String expiration_date, String name, String package_name, String updated_at, String image_link) {
+    public Ad(String ad_link, String ad_location, String ad_type, String beginning_date, String created_at, String description, String expiration_date, String name, String package_name, String updated_at, String image_link, String category) {
         this.ad_link = ad_link;
         this.ad_location = ad_location;
         this.ad_type = ad_type;
@@ -29,6 +30,16 @@ public class Ad {
         this.package_name = package_name;
         this.updated_at = updated_at;
         this.ad_image_link = image_link;
+        this.category = category;
+    }
+
+    public String getCategory() {
+        return category;
+    }
+
+    public Ad setCategory(String category) {
+        this.category = category;
+        return this;
     }
 
     public String getAd_image_link() {

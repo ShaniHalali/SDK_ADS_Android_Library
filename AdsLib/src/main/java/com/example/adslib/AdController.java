@@ -28,9 +28,9 @@ public class AdController {
         return retrofit.create(AdsAPI.class);
     }
 
-    public void fetchOneActiveAd(String packageName, String date, String location, Callback_Ads callbackAds) {
+    public void fetchOneActiveAd(String packageName, String date, String location, String category, Callback_Ads callbackAds) {
         AdsAPI adsAPI = getAPI();
-        Call<List<Ad>> call = adsAPI.getActiveAds(packageName, date, location);
+        Call<List<Ad>> call = adsAPI.getActiveAds(packageName, date, location, category);
 
         call.enqueue(new Callback<List<Ad>>() {
             @Override

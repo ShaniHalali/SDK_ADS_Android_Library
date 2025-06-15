@@ -5,9 +5,13 @@ import java.util.List;
 public class AdsManager {
     // This class is responsible for managing ads in the application.
     // It can include methods to initialize ads, load ads, and handle ad events.
-    private final String hotelsAdsPackageName = "Hotels.ads";
-    private final String restaurantsAdsPackageName = "Restaurants.ads";
-    private final String sellProductsAdsPackageName = "SellProducts.ads";
+    private final String adsPackageName = "Ads";
+    private final String HotelCategory = "Hotel";
+    private final String restaurantsCategory = "Restaurant";
+    private final String ProductsCategory = "Product";
+    private final String AttractionCategory = "Attraction";
+
+
     AdController controller = new AdController();
     private AdView adView;
 
@@ -16,9 +20,9 @@ public class AdsManager {
         this.adView = adView;
     }
 
-    public void showRAdFromPackageName(String packageName) {
+    public void showRandomAd() {
         // Logic to display the ad
-        controller.fetchOneActiveAd(packageName,null,null, new Callback_Ads() {
+        controller.fetchOneActiveAd(adsPackageName,null,null,null, new Callback_Ads() {
             @Override
             public void ready(Ad ad) {
                 adView.loadAd( ad);
@@ -38,8 +42,8 @@ public class AdsManager {
 
     }
 
-    public void showHotelsAd(){
-        controller.fetchOneActiveAd(hotelsAdsPackageName,null,null, new Callback_Ads() {
+    public void showHotelsAd(String Location){
+        controller.fetchOneActiveAd(adsPackageName,null,Location,HotelCategory, new Callback_Ads() {
             @Override
             public void ready(Ad ad) {
                 adView.loadAd( ad);
@@ -59,8 +63,8 @@ public class AdsManager {
 
     }
 
-    public void showRestaurantsAd(){
-        controller.fetchOneActiveAd(restaurantsAdsPackageName,null,null, new Callback_Ads() {
+    public void showRestaurantsAd(String Location){
+        controller.fetchOneActiveAd(adsPackageName,null,Location,restaurantsCategory, new Callback_Ads() {
             @Override
             public void ready(Ad ad) {
                 adView.loadAd( ad);
@@ -80,8 +84,8 @@ public class AdsManager {
 
     }
 
-    public void showSellProductsAd(){
-        controller.fetchOneActiveAd(sellProductsAdsPackageName,null,null, new Callback_Ads() {
+    public void showProductsAd(String Location){
+        controller.fetchOneActiveAd(adsPackageName,null,Location,ProductsCategory, new Callback_Ads() {
             @Override
             public void ready(Ad ad) {
                 adView.loadAd( ad);
@@ -105,7 +109,7 @@ public class AdsManager {
     public void showRandomAdFromByLocation(String location) {
         // Logic to display a random ad based on the provided location
 
-        controller.fetchOneActiveAd(hotelsAdsPackageName,null,location, new Callback_Ads() {
+        controller.fetchOneActiveAd(adsPackageName,null,location,null, new Callback_Ads() {
             @Override
             public void ready(Ad ad) {
                 adView.loadAd( ad);
@@ -125,7 +129,6 @@ public class AdsManager {
 
     }
 
-    //המפתח יחליט מה קורה כאשר המשתמש מחליט ללחוץ על הכפתור של הפרסומה
     public void onAdClicked(Ad ad) {
         // Logic to handle ad click events
         // This could include tracking the click or redirecting the user to the ad link

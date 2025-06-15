@@ -55,7 +55,10 @@ public class AdView extends FrameLayout {
     }
     public void closeAdView(){
         this.setVisibility(GONE);
-
+        if (currentAd != null && "video".equals(currentAd.getAd_type())){
+            adview_video.stopPlayback();
+            adview_video.seekTo(0);
+        }
     }
 
     public void showExitButtonWithDelay(int seconds) {

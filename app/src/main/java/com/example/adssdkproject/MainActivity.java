@@ -25,6 +25,9 @@ private AdView adView;
 
         AdsManager adsManager = new AdsManager();
         adsManager.setAdView(adView);
+        //adsManager.showRandomAdFromByLocation("Tel Aviv");
+        //adsManager.showHotelsAd();
+        //adsManager.showRestaurantsAd(null);
         adsManager.showRandomAdFromByLocation("Tel Aviv");
         adsManager.showExitButton(10);
 
