@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.VideoView;
 
 import com.bumptech.glide.Glide;
 import com.google.android.material.button.MaterialButton;
@@ -21,7 +22,7 @@ public class AdView extends FrameLayout {
     private ImageView adview_img;
     private ExtendedFloatingActionButton adview_exit;
     private MaterialButton adview_adLink;
-
+    private VideoView adview_video;
     private Ad currentAd;
 
     public AdView(Context context) {
@@ -47,8 +48,9 @@ public class AdView extends FrameLayout {
         adview_img = findViewById(R.id.adview_img);
         adview_exit = findViewById(R.id.adview_exit);
         adview_adLink = findViewById(R.id.adview_adLink);
+        adview_video = findViewById(R.id.adview_video);
 
-        adview_exit.setOnClickListener(v -> setVisibility(GONE));
+        //adview_exit.setOnClickListener(v -> setVisibility(GONE));
         adLinkButtonListener();
     }
     public void closeAdView(){
@@ -83,13 +85,32 @@ public class AdView extends FrameLayout {
         adview_title.setText(ad.getName());
         adview_description.setText(ad.getDescription());
         adview_location.setText("Location: " + ad.getAd_location());
+        loadAdImage(ad);
 
+/*
         // Load image using Glide
         Glide.with(getContext())
                 .load(ad.getAd_image_link())
-                .into(adview_img);
+                .into(adview_img);*/
     }
 
+    private void loadAdImage(Ad ad){
+        if ("photo".equals(ad.getAd_type())) {
+            adview_img.setVisibility(View.VISIBLE);
+            adview_video.setVisibility(View.GONE);
+
+            Glide.with(getContext())
+                    .load(ad.getAd_image_link())
+                    .into(adview_img);
+        } else if ("video".equals(ad.getAd_type())) {
+            adview_img.setVisibility(View.GONE);
+            adview_video.setVisibility(View.VISIBLE);
+
+            adview_video.setVideoURI(Uri.parse(ad.getAd_image_link()));
+            adview_video.start();
+        }
+
+    }
 
 
     private void moveToLink(Ad ad) {
