@@ -26,7 +26,6 @@
                 android:id="@+id/adview_exit"
                 android:layout_width="55dp"
                 android:layout_height="55dp"
-                android:layout_marginTop="10dp"
                 android:layout_marginEnd="5dp"
                 android:layout_gravity="end"
                 android:backgroundTint="#64B5F6"
@@ -47,6 +46,26 @@
                 android:textColor="#000000"
                 android:fontFamily="@font/alfa"
                 />
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:backgroundTint="#B3E5FC"
+                android:layout_marginBottom="5dp"
+                app:cardCornerRadius="24dp">
+
+
+
+                    <TextView
+                        android:id="@+id/adview_location"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Ad Location "
+                        android:textSize="18sp"
+                        android:textColor="#000000"
+                        android:gravity="center_horizontal"
+                        android:layout_marginTop="4dp" />
+            </androidx.cardview.widget.CardView>
             <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="400dp">
@@ -67,8 +86,8 @@
 
                     <VideoView
                         android:id="@+id/adview_video"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="match_parent"
+                        android:layout_height="400dp"
                         android:visibility="gone" />
                 </LinearLayout>
             </FrameLayout>
@@ -88,16 +107,6 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
                     android:padding="12dp">
-
-                    <TextView
-                        android:id="@+id/adview_location"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Ad Location "
-                        android:textSize="18sp"
-                        android:textColor="#000000"
-                        android:gravity="center_horizontal"
-                        android:layout_marginTop="4dp" />
 
                     <TextView
                         android:id="@+id/adview_description"

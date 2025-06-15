@@ -107,7 +107,13 @@ public class AdView extends FrameLayout {
             adview_video.setVisibility(View.VISIBLE);
 
             adview_video.setVideoURI(Uri.parse(ad.getAd_image_link()));
-            adview_video.start();
+
+            adview_video.setOnPreparedListener(mp -> {
+                mp.setLooping(true);
+                adview_video.start();
+            });
+
+
         }
 
     }
