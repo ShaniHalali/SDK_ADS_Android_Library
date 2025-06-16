@@ -58,10 +58,11 @@ private AdsManager adsManager;
 protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_main);
-
-    AdView adView = findViewById(R.id.adView);
-    adsManager = new AdsManager();
-    adsManager.setAdView(adView);
+//implement adView and adManager to present the ads
+   adView = findViewById(R.id.adView);
+   adsManager = new AdsManager(this);
+   adsManager.setAdView(adView);
+   adView.setAdsManager(adsManager);
 
     if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)
             != PackageManager.PERMISSION_GRANTED) {
@@ -78,12 +79,14 @@ private void getUserCityAndLoadAd() {
     LocationHelper.getCityNameFromDevice(this, new CityCallback() {
         @Override
         public void onCityLoaded(String city) {
+//or other function that my libreary ofers you as your prefear
             adsManager.showRandomAdFromByLocation(city);
         }
 
         @Override
         public void onError(String reason) {
-            adsManager.showRandomAdFromByLocation("Tel Aviv"); // fallback
+//or other function that my libreary ofers you as your prefear
+            adsManager.showRandomAdFromByLocation("Tel Aviv"); // defult city - you can change it as you wish too
         }
     });
 }
