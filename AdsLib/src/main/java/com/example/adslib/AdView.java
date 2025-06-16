@@ -24,6 +24,9 @@ public class AdView extends FrameLayout {
     private MaterialButton adview_adLink;
     private VideoView adview_video;
     private Ad currentAd;
+    private AdsManager adsManager;
+    private boolean setOnce = false;
+
 
     public AdView(Context context) {
         super(context);
@@ -76,6 +79,7 @@ public class AdView extends FrameLayout {
 
         adview_adLink.setOnClickListener(v -> {
             if (currentAd != null) {
+
                 moveToLink(currentAd);
             }
         });
@@ -84,17 +88,15 @@ public class AdView extends FrameLayout {
 
     public void loadAd(Ad ad) {
         this.currentAd = ad;
+        //this.setOnce = false;
 
         adview_title.setText(ad.getName());
         adview_description.setText(ad.getDescription());
         adview_location.setText("Location: " + ad.getAd_location());
         loadAdImage(ad);
-
-/*
-        // Load image using Glide
-        Glide.with(getContext())
-                .load(ad.getAd_image_link())
-                .into(adview_img);*/
+        if (adsManager != null) {
+            adsManager.onAdStarted(currentAd);
+        }
     }
 
     private void loadAdImage(Ad ad){
@@ -110,11 +112,20 @@ public class AdView extends FrameLayout {
             adview_video.setVisibility(View.VISIBLE);
 
             adview_video.setVideoURI(Uri.parse(ad.getAd_image_link()));
+            adview_video.start();
 
+                adview_video.setOnCompletionListener(mp -> {
+                    if (adsManager != null && currentAd != null && !setOnce) {
+                        adsManager.onAdCompleted(currentAd);
+                        //setOnce=true;
+
+                    }
+                });
+            /*
             adview_video.setOnPreparedListener(mp -> {
                 mp.setLooping(true);
                 adview_video.start();
-            });
+            });*/
 
 
         }
@@ -125,8 +136,16 @@ public class AdView extends FrameLayout {
     private void moveToLink(Ad ad) {
         String link = ad.getAd_link();
         if (link != null && !link.isEmpty()) {
+            if(adsManager != null){
+                adsManager.onAdClicked(currentAd);
+
+            }
             Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(link));
             getContext().startActivity(browserIntent);
         }
     }
+    public void setAdsManager(AdsManager adsManager) {
+        this.adsManager = adsManager;
+    }
+
 }

@@ -1,5 +1,7 @@
 package com.example.adslib;
 
+import android.content.Context;
+
 import java.util.List;
 
 public class AdsManager {
@@ -10,11 +12,14 @@ public class AdsManager {
     private final String restaurantsCategory = "Restaurant";
     private final String ProductsCategory = "Product";
     private final String AttractionCategory = "Attraction";
-
+    private final String appName;
 
     AdController controller = new AdController();
     private AdView adView;
 
+    public AdsManager(Context context) {
+        this.appName = context.getPackageName();
+    }
 
     public void setAdView(AdView adView) {
         this.adView = adView;
@@ -129,12 +134,6 @@ public class AdsManager {
 
     }
 
-    public void onAdClicked(Ad ad) {
-        // Logic to handle ad click events
-        // This could include tracking the click or redirecting the user to the ad link
-
-
-    }
     public void onAdClosed(Ad ad) {
         // Logic to handle ad close events
         // This could include cleaning up resources or updating the UI
@@ -147,5 +146,15 @@ public class AdsManager {
             adView.showExitButtonWithDelay(seconds);
         }
     }
+    public void onAdClicked(Ad ad) {
+        controller.recordClick(ad.get_id(), appName);
+    }
+    public void onAdStarted(Ad ad) {
+        controller.recordView(ad.get_id(), appName);
+    }
+    public void onAdCompleted(Ad ad) {
+        controller.recordCompletedView(ad.get_id(), appName);
+    }
+
 
 }

@@ -1,10 +1,13 @@
 package com.example.adslib;
 
 
+import android.util.Log;
+
 import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
+import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
@@ -57,9 +60,6 @@ public class AdController {
         });
     }
 
-
-
-
     public void fetchAllAds(String packageName, Callback_Ads callback) {
         setCallback_ads(callback_ads);
         Call<List<Ad>> call = getAPI().loadAllAds(packageName);
@@ -78,5 +78,49 @@ public class AdController {
             callback_ads.failed("Error: " + t.getMessage());
         }
     };
+
+    //records ads
+    public void recordClick(String adId, String packageName) {
+        getAPI().recordAdClick(adId, packageName).enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                Log.d("AdController", "Click recorded: " + response.code());
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+                Log.e("AdController", "Click failed: " + t.getMessage());
+            }
+        });
+    }
+
+    public void recordView(String adId, String packageName) {
+        getAPI().recordAdView(adId, packageName).enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                Log.d("AdController", "View recorded: " + response.code());
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+                Log.e("AdController", "View failed: " + t.getMessage());
+            }
+        });
+    }
+
+    public void recordCompletedView(String adId, String packageName) {
+        getAPI().recordCompletedView(adId, packageName).enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                Log.d("AdController", "Completed view recorded: " + response.code());
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+                Log.e("AdController", "Completed view failed: " + t.getMessage());
+            }
+        });
+    }
+
 }
 

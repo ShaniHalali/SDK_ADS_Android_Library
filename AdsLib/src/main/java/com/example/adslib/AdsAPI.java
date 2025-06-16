@@ -3,6 +3,7 @@ package com.example.adslib;
 
 import retrofit2.Call;
 import retrofit2.http.GET;
+import retrofit2.http.POST;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 
@@ -22,6 +23,26 @@ public interface AdsAPI {
             @Query("category") String category
     );
 
+    // 1. Record ad click
+    @POST("/ad_sdk/{ad_id}/click")
+    Call<Void> recordAdClick(
+            @Path("ad_id") String adId,
+            @Query("package_name") String packageName
+    );
+
+    // 2. Record ad view
+    @POST("/ad_sdk/{ad_id}/view")
+    Call<Void> recordAdView(
+            @Path("ad_id") String adId,
+            @Query("package_name") String packageName
+    );
+
+    // 3. Record completed view (for video)
+    @POST("/ad_sdk/{ad_id}/view/completed")
+    Call<Void> recordCompletedView(
+            @Path("ad_id") String adId,
+            @Query("package_name") String packageName
+    );
 
 }
 

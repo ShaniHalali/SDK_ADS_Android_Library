@@ -31,8 +31,10 @@ private AdsManager adsManager;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         adView = findViewById(R.id.adView);
-        adsManager = new AdsManager();
+        adsManager = new AdsManager(this);
         adsManager.setAdView(adView);
+        adView.setAdsManager(adsManager);
+
 
         if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED) {
