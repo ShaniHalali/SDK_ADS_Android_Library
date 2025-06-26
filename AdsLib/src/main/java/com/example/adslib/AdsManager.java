@@ -68,6 +68,27 @@ public class AdsManager {
 
     }
 
+    public void showAttractionAd(String Location){
+        controller.fetchOneActiveAd(adsPackageName,null,Location,AttractionCategory, new Callback_Ads() {
+            @Override
+            public void ready(Ad ad) {
+                adView.loadAd( ad);
+            }
+
+            @Override
+            public void readyList(List<Ad> ads) {
+                // Handle the list of ads if needed
+            }
+
+            @Override
+            public void failed(String Message) {
+                // Handle the failure case
+
+            }
+        });
+
+    }
+
     public void showRestaurantsAd(String Location){
         controller.fetchOneActiveAd(adsPackageName,null,Location,restaurantsCategory, new Callback_Ads() {
             @Override
