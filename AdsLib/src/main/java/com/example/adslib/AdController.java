@@ -3,6 +3,7 @@ package com.example.adslib;
 
 import android.util.Log;
 
+import java.util.Iterator;
 import java.util.List;
 
 import retrofit2.Call;
@@ -10,6 +11,11 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 
 public class AdController {
     private static final String BASE_URL = "https://ad-sdk-flask-api.vercel.app/";
@@ -41,8 +47,33 @@ public class AdController {
                 if (response.isSuccessful() && response.body() != null && !response.body().isEmpty()) {
                     List<Ad> ads = response.body();
 
+                    Iterator<Ad> iterator = ads.iterator();
+                    SimpleDateFormat dateFormat = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss z", Locale.ENGLISH);
+
+                    while (iterator.hasNext()) {
+                        Ad ad = iterator.next();
+                        long now = System.currentTimeMillis();
+
+                        try {
+                            Date beginDate = dateFormat.parse(ad.getBeginning_date());
+                            Date expireDate = dateFormat.parse(ad.getExpiration_date());
+
+                            if (beginDate != null && expireDate != null &&
+                                    beginDate.getTime() < now && expireDate.getTime() > now) {
+                                Log.d("AdController", "Ad is active: " + ad.get_id());
+                            } else {
+                                Log.d("AdController", "Ad is not active: " + ad.get_id());
+                                iterator.remove();
+                            }
+                        } catch (ParseException e) {
+                            Log.e("AdController", "Failed to parse date for ad: " + ad.get_id(), e);
+                            iterator.remove(); // Remove if parsing fails
+                        }
+                    }
+
                     int numberOfAds = ads.size();
                     if(numberOfAds >= 1) {
+
                         //random one ad
                         int randomIndex = (int) (Math.random() * numberOfAds);
                         Ad ad = ads.get(randomIndex);
@@ -94,8 +125,8 @@ public class AdController {
         });
     }
 
-    public void recordView(String adId, String packageName) {
-        getAPI().recordAdView(adId, packageName).enqueue(new Callback<Void>() {
+    public void recordView(String adId, String packageName, String category) {
+        getAPI().recordAdView(adId, packageName, category).enqueue(new Callback<Void>() {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
                 Log.d("AdController", "View recorded: " + response.code());

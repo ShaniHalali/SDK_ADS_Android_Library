@@ -34,7 +34,9 @@ public interface AdsAPI {
     @POST("/ad_sdk/{ad_id}/view")
     Call<Void> recordAdView(
             @Path("ad_id") String adId,
-            @Query("package_name") String packageName
+            @Query("package_name") String packageName,
+            @Query("category") String category
+
     );
 
     // 3. Record completed view (for video)
