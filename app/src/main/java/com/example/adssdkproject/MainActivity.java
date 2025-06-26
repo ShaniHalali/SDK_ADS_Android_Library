@@ -46,7 +46,7 @@ private AdsManager adsManager;
         }
 
         //adsManager.showHotelsAd();
-        //adsManager.showRestaurantsAd(null);
+       // adsManager.showRestaurantsAd(null);
         //adsManager.showRandomAdFromByLocation("Tel Aviv");
         adsManager.showExitButton(10);
 
@@ -57,6 +57,9 @@ private AdsManager adsManager;
             @Override
             public void onCityLoaded(String city) {
                 userCity = city;
+                if(userCity == null || userCity.isEmpty()) {
+                    userCity = "Tel Aviv"; // Fallback city if none found
+                }
                 Log.d("CITY_RESULT", "User's city: " + userCity);
                 adsManager.showRandomAdFromByLocation(userCity);
             }

@@ -150,7 +150,7 @@ public class AdsManager {
         controller.recordClick(ad.get_id(), appName);
     }
     public void onAdStarted(Ad ad) {
-        controller.recordView(ad.get_id(), appName);
+        controller.recordView(ad.get_id(), appName,ad.getCategory());
     }
     public void onAdCompleted(Ad ad) {
         controller.recordCompletedView(ad.get_id(), appName);

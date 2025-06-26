@@ -1,5 +1,7 @@
 package com.example.adslib;
 
+import static com.google.android.gms.location.Priority.PRIORITY_HIGH_ACCURACY;
+
 import android.Manifest;
 import android.content.Context;
 import android.content.pm.PackageManager;
@@ -12,6 +14,8 @@ import android.util.Log;
 import androidx.core.content.ContextCompat;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
 
 import java.io.IOException;
@@ -33,23 +37,42 @@ public class LocationHelper {
 
         FusedLocationProviderClient fusedLocationClient =
                 LocationServices.getFusedLocationProviderClient(context);
+
+
+        LocationRequest locationRequest = new LocationRequest.Builder(
+                PRIORITY_HIGH_ACCURACY,
+                1000 // interval in milliseconds
+        )
+                .setMinUpdateIntervalMillis(1000)
+                .setWaitForAccurateLocation(false)
+                .setMaxUpdateDelayMillis(5000)
+                .setDurationMillis(5000)
+                .setMaxUpdates(1)
+                .build();
+        com.google.android.gms.location.LocationCallback locationCallback = new com.google.android.gms.location.LocationCallback() {
+            @Override
+            public void onLocationResult(LocationResult locationResult) {
+                if (locationResult == null || locationResult.getLastLocation() == null) {
+                    callback.onLocationError("Location not available");
+                    Log.d("LocationError", "LocationResult is null or last location is null");
+                    return;
+                }
+
+                Location location = locationResult.getLastLocation();
+                Log.d("LocationReceived", "Location received: " + location.toString());
+                callback.onLocationReceived(location);
+
+                fusedLocationClient.removeLocationUpdates(this);
+            }
+        };
+
         try {
-            fusedLocationClient.getLastLocation()
-                    .addOnSuccessListener(location -> {
-                        if (location != null) {
-                            callback.onLocationReceived(location);
-                        } else {
-                            callback.onLocationError("Location not available");
-                        }
-                    })
-                    .addOnFailureListener(e -> {
-                        callback.onLocationError("Failed to get location: " + e.getMessage());
-                    });
+            fusedLocationClient.requestLocationUpdates(locationRequest, locationCallback, null);
         } catch (SecurityException e) {
             callback.onLocationError("SecurityException: " + e.getMessage());
         }
-
     }
+
 
     private static String getCityFromLocation(Context context, Location location) {
         Geocoder geocoder = new Geocoder(context, Locale.getDefault());
@@ -63,9 +86,12 @@ public class LocationHelper {
             if (addresses != null && !addresses.isEmpty()) {
                 Address address = addresses.get(0);
                 String CityName= address.getLocality();
-                Log.d("UserCityName",CityName);
+                if(CityName == null){
+                    CityName="Kfar Tavor";
+                }
+                Log.d("TAGCityName", CityName != null ? CityName : "cityName is null");
                 return CityName; // return the city name - of the user
-            } else {
+            } else  {
                 Log.w("AdSDK", "No address found for location");
                 return null;
             }
