@@ -1,5 +1,5 @@
 [![](https://jitpack.io/v/ShaniHalali/SDK_ADS_Android_Library.svg)](https://jitpack.io/#ShaniHalali/SDK_ADS_Android_Library)
-
+[![API](https://img.shields.io/badge/API-26%2B-green.svg?style=flat)]()
 
 # 📱 Android Ads SDK - Location-Based Smart Ads
 
