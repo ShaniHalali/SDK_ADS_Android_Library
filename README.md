@@ -103,6 +103,7 @@ Every app is tracked separately using its unique package name.
 public class MainActivity extends AppCompatActivity {
     private AdView adView;
     private AdsManager adsManager;
+    private String userCity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -110,19 +111,12 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         adView = findViewById(R.id.adView);
-        adsManager = new AdsManager(this); // Uses your app's package name automatically
+        adsManager = new AdsManager(this); // Uses your app's package name automatically, this-for Activity /getContext()-for fragment
         adsManager.setAdView(adView);
         adView.setAdsManager(adsManager);
 
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)
-                != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this,
-                    new String[]{Manifest.permission.ACCESS_COARSE_LOCATION}, 101);
-        } else {
-            getUserCityAndLoadAd();
-        }
 
-        adsManager.showExitButton(10); // Optional
+        adsManager.showExitButton(10); // 10 secounds for example
     }
 
     private void getUserCityAndLoadAd() {
@@ -147,6 +141,31 @@ public class MainActivity extends AppCompatActivity {
             getUserCityAndLoadAd();
         } else {
             adsManager.showRandomAdFromByLocation("Tel Aviv"); // Fallback
+        }
+    }
+    //------- for Fragment!!!------
+     @Override
+    public void onResume() {
+        super.onResume();
+        if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_COARSE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED) {
+            requestPermissions(new String[]{Manifest.permission.ACCESS_COARSE_LOCATION}, 101);
+        } else {
+            getUserCityAndLoadAd();
+        }
+    }
+
+    //------- for Activity!!!------
+         @Override
+    public void onResume() {
+        super.onResume();
+       if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.ACCESS_COARSE_LOCATION},
+                    101);
+        } else {
+            getUserCityAndLoadAd();
         }
     }
 }
