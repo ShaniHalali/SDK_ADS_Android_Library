@@ -1,3 +1,6 @@
+[![](https://jitpack.io/v/ShaniHalali/SDK_ADS_Android_Library.svg)](https://jitpack.io/#ShaniHalali/SDK_ADS_Android_Library)
+
+
 # 📱 Android Ads SDK - Location-Based Smart Ads
 
 This SDK helps Android developers integrate **smart and dynamic ads** that are:
