@@ -1,5 +1,6 @@
 plugins {
     alias(libs.plugins.androidLibrary)
+    alias(libs.plugins.maven.publish) // Apply the maven-publish plugin
 }
 
 android {
@@ -25,6 +26,40 @@ android {
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
+    }
+}
+
+afterEvaluate {
+    publishing {
+        publications {
+            create<MavenPublication>("release") {
+                groupId = "com.example.adslib" // library package name
+                artifactId = "AdsLib" // library name
+                version = "1.0.0" // library version
+                artifact(tasks.getByName("bundleReleaseAar"))
+
+                pom {
+                    withXml {
+                        val dependenciesNode = asNode().appendNode("dependencies")
+                        configurations.api.get().dependencies.forEach { dependency ->
+                            val dependencyNode = dependenciesNode.appendNode("dependency")
+                            dependencyNode.appendNode("groupId", dependency.group)
+                            dependencyNode.appendNode("artifactId", dependency.name)
+                            dependencyNode.appendNode("version", dependency.version)
+                            dependencyNode.appendNode("scope", "compile")
+                        }
+                        configurations.implementation.get().dependencies.forEach { dependency ->
+                            val dependencyNode = dependenciesNode.appendNode("dependency")
+                            dependencyNode.appendNode("groupId", dependency.group)
+                            dependencyNode.appendNode("artifactId", dependency.name)
+                            dependencyNode.appendNode("version", dependency.version)
+                            dependencyNode.appendNode("scope", "runtime")
+                        }
+                    }
+                }
+
+            }
+        }
     }
 }
 

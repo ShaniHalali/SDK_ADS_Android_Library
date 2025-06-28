@@ -24,5 +24,5 @@ converter-gson = { module = "com.squareup.retrofit2:converter-gson", version.ref
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
 androidLibrary = { id = "com.android.library", version.ref = "agp" }
-maven-publish = { id = "mevan.publish" }
+maven-publish = { id = "maven-publish" }
 
