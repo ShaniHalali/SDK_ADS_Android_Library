@@ -24,10 +24,26 @@ The SDK uses Android's location service to determine the user's city and fetch l
 - You should handle fallback logic (e.g., default city like "Tel Aviv").
 
 ---
+## Setup
+Step 1. Add it in your root build.gradle at the end of repositories:
+```xml
+allprojects {
+    repositories {
+        // other repositories
+        maven { url = uri("https://jitpack.io" )}
+    }
+}
+```
+Step 2. Add the dependency:
+```xml
+dependencies {
+    implementation("com.github.ShaniHalali:SDK_ADS_Android_Library:1.0.0") // Include the AdsLib library from GitHub
+}
+```
+---
+## Requirements (for full SDK integration)
 
-## 📋 Requirements (for full SDK integration)
-
-### ✅ Permissions & Setup
+### Permissions & Setup
 
 1. Add this to your `AndroidManifest.xml`:
 ```xml
