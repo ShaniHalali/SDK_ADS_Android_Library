@@ -44,13 +44,13 @@ dependencies {
 ## Requirements (for full SDK integration)
 
 ### Permissions & Setup
-
 1. Add this to your `AndroidManifest.xml`:
 ```xml
 <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 ```
+2. Add the following to your layout XML.
 
-2.Add the following to your layout XML:
+Make sure to add it after the main content layout (e.g., ScrollView or RecyclerView) so that it appears on top or at the bottom of the screen, depending on your layout structure.
 ```xml
 <com.example.adslib.AdView
     android:id="@+id/adView"
