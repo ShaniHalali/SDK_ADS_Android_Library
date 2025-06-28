@@ -116,7 +116,7 @@ public class MainActivity extends AppCompatActivity {
         adView.setAdsManager(adsManager);
 
 
-        adsManager.showExitButton(10); // 10 secounds for example
+        adsManager.showExitButton(10); // 10 seconds for example
     }
 
     private void getUserCityAndLoadAd() {
