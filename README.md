@@ -20,7 +20,7 @@ The SDK uses Android's location service to determine the user's city and fetch l
 ### 💡 Notes
 - The SDK does **not** request location permission automatically.
 - You **must** request permission at runtime before using location-based features.
-- It uses `ACCESS_COARSE_LOCATION` (WiFi/network-based) — **no GPS needed**.
+- It uses `ACCESS_COARSE_LOCATION` (WiFi/network-based) **no GPS needed**.
 - You should handle fallback logic (e.g., default city like "Tel Aviv").
 
 ---
