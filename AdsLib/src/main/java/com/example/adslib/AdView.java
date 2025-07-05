@@ -121,12 +121,6 @@ public class AdView extends FrameLayout {
 
                     }
                 });
-            /*
-            adview_video.setOnPreparedListener(mp -> {
-                mp.setLooping(true);
-                adview_video.start();
-            });*/
-
 
         }
 

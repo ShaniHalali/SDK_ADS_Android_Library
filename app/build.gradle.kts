@@ -41,4 +41,6 @@ dependencies {
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
     implementation (project(":AdsLib")) // Include the AdsLib module
+    //implementation("com.github.ShaniHalali:SDK_ADS_Android_Library:1.0.0") // Include the AdsLib library from GitHub
+
 }

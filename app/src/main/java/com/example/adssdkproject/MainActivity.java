@@ -26,6 +26,7 @@ private TextView adTextView;
 private AdView adView;
 private String userCity;
 private AdsManager adsManager;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,8 +46,8 @@ private AdsManager adsManager;
             getUserCityAndLoadAd();
         }
 
-        //adsManager.showHotelsAd();
-       // adsManager.showRestaurantsAd(null);
+        //adsManager.showHotelsAd(null);
+        // adsManager.showRestaurantsAd(null);
         //adsManager.showRandomAdFromByLocation("Tel Aviv");
         adsManager.showExitButton(10);
 
@@ -57,9 +58,6 @@ private AdsManager adsManager;
             @Override
             public void onCityLoaded(String city) {
                 userCity = city;
-                if(userCity == null || userCity.isEmpty()) {
-                    userCity = "Tel Aviv"; // Fallback city if none found
-                }
                 Log.d("CITY_RESULT", "User's city: " + userCity);
                 adsManager.showRandomAdFromByLocation(userCity);
             }

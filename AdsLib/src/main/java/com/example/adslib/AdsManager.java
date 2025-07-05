@@ -1,6 +1,7 @@
 package com.example.adslib;
 
 import android.content.Context;
+import android.util.Log;
 
 import java.util.List;
 
@@ -13,6 +14,7 @@ public class AdsManager {
     private final String ProductsCategory = "Product";
     private final String AttractionCategory = "Attraction";
     private final String appName;
+    private String defaultCity = "Tel Aviv"; // default fallback
 
     AdController controller = new AdController();
     private AdView adView;
@@ -24,6 +26,7 @@ public class AdsManager {
     public void setAdView(AdView adView) {
         this.adView = adView;
     }
+
 
     public void showRandomAd() {
         // Logic to display the ad
@@ -148,8 +151,12 @@ public class AdsManager {
 
             @Override
             public void failed(String Message) {
-                // Handle the failure case
-
+                if (!location.equalsIgnoreCase(defaultCity)) {
+                    Log.w("ADS_MANAGER", "No ad for location: " + location + " → trying default: " + defaultCity);
+                    showRandomAdFromByLocation(defaultCity);
+                } else {
+                    Log.e("ADS_MANAGER", "No ad found even for default city: " + defaultCity);
+                }
             }
         });
 
