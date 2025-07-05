@@ -1,3 +1,7 @@
+![GitHub](https://img.shields.io/github/license/ShaniHalali/SDK_ADS_Android_Library)
+[![](https://jitpack.io/v/ShaniHalali/SDK_ADS_Android_Library.svg)](https://jitpack.io/#ShaniHalali/SDK_ADS_Android_Library)
+[![API](https://img.shields.io/badge/API-26%2B-green.svg?style=flat)]()
+
 # 📱 Android Ads SDK - Location-Based Smart Ads
 
 This SDK helps Android developers integrate **smart and dynamic ads** that are:
@@ -16,21 +20,37 @@ The SDK uses Android's location service to determine the user's city and fetch l
 ### 💡 Notes
 - The SDK does **not** request location permission automatically.
 - You **must** request permission at runtime before using location-based features.
-- It uses `ACCESS_COARSE_LOCATION` (WiFi/network-based) — **no GPS needed**.
+- It uses `ACCESS_COARSE_LOCATION` (WiFi/network-based) **no GPS needed**.
 - You should handle fallback logic (e.g., default city like "Tel Aviv").
 
 ---
+## Setup
+Step 1. Add it in your root build.gradle at the end of repositories:
+```xml
+allprojects {
+    repositories {
+        // other repositories
+        maven { url = uri("https://jitpack.io" )}
+    }
+}
+```
+Step 2. Add the dependency:
+```xml
+dependencies {
+    implementation("com.github.ShaniHalali:SDK_ADS_Android_Library:1.0.0") // Include the AdsLib library from GitHub
+}
+```
+---
+## Requirements (for full SDK integration)
 
-## 📋 Requirements (for full SDK integration)
-
-### ✅ Permissions & Setup
-
+### Permissions & Setup
 1. Add this to your `AndroidManifest.xml`:
 ```xml
 <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 ```
+2. Add the following to your layout XML.
 
-2.Add the following to your layout XML:
+Make sure to add it after the main content layout (e.g., ScrollView or RecyclerView) so that it appears on top or at the bottom of the screen, depending on your layout structure.
 ```xml
 <com.example.adslib.AdView
     android:id="@+id/adView"
@@ -83,6 +103,7 @@ Every app is tracked separately using its unique package name.
 public class MainActivity extends AppCompatActivity {
     private AdView adView;
     private AdsManager adsManager;
+    private String userCity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,19 +111,12 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         adView = findViewById(R.id.adView);
-        adsManager = new AdsManager(this); // Uses your app's package name automatically
+        adsManager = new AdsManager(this); // Uses your app's package name automatically, this-for Activity /getContext()-for fragment
         adsManager.setAdView(adView);
         adView.setAdsManager(adsManager);
 
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)
-                != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this,
-                    new String[]{Manifest.permission.ACCESS_COARSE_LOCATION}, 101);
-        } else {
-            getUserCityAndLoadAd();
-        }
 
-        adsManager.showExitButton(10); // Optional
+        adsManager.showExitButton(10); // 10 seconds for example
     }
 
     private void getUserCityAndLoadAd() {
@@ -127,6 +141,31 @@ public class MainActivity extends AppCompatActivity {
             getUserCityAndLoadAd();
         } else {
             adsManager.showRandomAdFromByLocation("Tel Aviv"); // Fallback
+        }
+    }
+    //------- for Fragment!!!------
+     @Override
+    public void onResume() {
+        super.onResume();
+        if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_COARSE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED) {
+            requestPermissions(new String[]{Manifest.permission.ACCESS_COARSE_LOCATION}, 101);
+        } else {
+            getUserCityAndLoadAd();
+        }
+    }
+
+    //------- for Activity!!!------
+         @Override
+    public void onResume() {
+        super.onResume();
+       if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.ACCESS_COARSE_LOCATION},
+                    101);
+        } else {
+            getUserCityAndLoadAd();
         }
     }
 }
