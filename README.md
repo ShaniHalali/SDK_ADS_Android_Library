@@ -10,9 +10,10 @@ This SDK helps Android developers integrate **smart and dynamic ads** that are:
 - 🎯 **Category-targeted** — Hotels, Restaurants, Products, Attractions
 - 🖼️ Supports both **image ads** and **video ads**
 - 📊 Automatically tracks key events: views, clicks, and completed video views
-
 ---
+https://github.com/user-attachments/assets/f75316f6-2324-4019-a774-e06dd7c13aff
 
+https://github.com/user-attachments/assets/085f1b9d-bc14-4f4b-b221-331301c70849
 ## 🌍 Get User's City Name for Location-Based Ads
 
 The SDK uses Android's location service to determine the user's city and fetch location-relevant ads.
