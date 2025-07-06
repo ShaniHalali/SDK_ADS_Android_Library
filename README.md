@@ -81,11 +81,11 @@ Each event is reported to the backend using the **real app's package name** via 
 | Function                                | Parameters         | Description                                         |
 |-----------------------------------------|--------------------|-----------------------------------------------------|
 | `adsManager.showRandomAd()`             | –                  | Displays a random ad randomaliy location and category |
-| `adsManager.showRandomAdFromByLocation(city)` | `String city'       | Displays a random ad based on the provided city     |
-| `adsManager.showHotelsAd(city)`         | `String city`       | Displays a hotel related ad for the given city      |
-| `adsManager.showRestaurantsAd(city)`    | `String city`       | Displays a restaurant-related ad for the given city |
-| `adsManager.showProductsAd(city)`       | `String city`       | Displays a product-related ad for the given city    |
-| `adsManager.showExitButton(seconds)`    | `int seconds`       | Shows a close button after delay - you neet to set the secounds as you prefer         |
+| `adsManager.showRandomAdFromByLocation(city)` | `String city'     | Displays a random ad based on the provided city    |
+| `adsManager.showHotelsAd(city)`         | `String city` (nullable)      | Displays a hotel-related ad for the given city. If city is null, shows any hotel ad.|
+| `adsManager.showRestaurantsAd(city)`    | `String city` (nullable)       | Displays a restaurant-related ad for the given city. If city is null, shows any restaurant ad.|
+| `adsManager.showProductsAd(city)`       | `String city` (nullable)      | Displays a product-related ad for the given city. If city is null, shows any product ad.|
+| `adsManager.showExitButton(seconds)`    | `int seconds`       | Shows a close button after delay - you need to set the secounds as you prefer         |
 
 
 
@@ -118,7 +118,7 @@ public class MainActivity extends AppCompatActivity {
 
         adsManager.showExitButton(10); // 10 seconds for example
     }
-
+    // one of five function that the developer can use
     private void getUserCityAndLoadAd() {
         LocationHelper.getCityNameFromDevice(this, new CityCallback() {
             @Override
