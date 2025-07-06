@@ -6,14 +6,52 @@
 
 This SDK helps Android developers integrate **smart and dynamic ads** that are:
 
-- 📍 **Location-aware** — ads are filtered by the user’s current city
-- 🎯 **Category-targeted** — Hotels, Restaurants, Products, Attractions
+- 📍 **Location-aware** - ads are filtered by the user’s current city
+- 🎯 **Category-targeted** - Hotels, Restaurants, Products, Attractions
 - 🖼️ Supports both **image ads** and **video ads**
 - 📊 Automatically tracks key events: views, clicks, and completed video views
+
+- 🌐 Includes a [**web-based dashboard**](https://portal-ads-dashboard-react-typejs.vercel.app/) for monitoring ad performance, 
+You can find more details and documentation on [*Ads portal repository*](https://github.com/ShaniHalali/Portal_ads_dashboard_REACT_TYPEJS)
+
 ---
 https://github.com/user-attachments/assets/f75316f6-2324-4019-a774-e06dd7c13aff
 
 https://github.com/user-attachments/assets/085f1b9d-bc14-4f4b-b221-331301c70849
+
+---
+## 🌐 API – Flask Server
+
+The Flask backend exposes a set of RESTful endpoints to manage ads, including creation, updates, filtering, and usage tracking. All endpoints are prefixed with `/ad_sdk`.
+
+### 🔧 Core Ad Management Endpoints
+
+| Endpoint                              | Method | Description                                                  |
+|---------------------------------------|--------|--------------------------------------------------------------|
+| `/ad_sdk`                             | POST   | **Create a new ad** – Adds a new ad document to the database. |
+| `/ad_sdk/<package_name>/all`          | GET    | **Get all ads** – Returns all ads stored for the specified app package. |
+| `/ad_sdk/<package_name>/<ad_id>`      | GET    | **Get ad by ID** – Retrieves a single ad by ID and package name. |
+| `/ad_sdk/<package_name>/<ad_id>`      | PUT    | **Update ad by ID** – Updates fields of an ad by ID.         |
+| `/ad_sdk/<package_name>`              | GET    | **Get ads by filters** – Returns all ads active on a given date, optionally filtered by `location` and `category`. |
+| `/ad_sdk`                             | DELETE | **Delete all ads** – Removes all ads from the database (for dev/test purposes). |
+
+---
+
+### 📊 Tracking & Analytics Endpoints
+
+| Endpoint                                                    | Method | Description                                                                          |
+|-------------------------------------------------------------|--------|--------------------------------------------------------------------------------------|
+| `/ad_sdk/<ad_id>/click?package_name=...`                    | POST   | **Record ad click** – Increments the click count for the given ad and app.          |
+| `/ad_sdk/<ad_id>/view?package_name=...&category=...`        | POST   | **Record ad view** – Increments the view count for the ad, based on app and category. |
+| `/ad_sdk/<ad_id>/view/completed?package_name=...`           | POST   | **Record completed view** – Specifically for video ads. Tracks full views.          |
+| `/ad_sdk/AdClickStats/summary`                              | GET    | **Get summarized stats** – Aggregates total clicks, views, and completed views.     |
+
+---
+
+For more information and full request/response formats, check the [*Ads flask server repository*](https://github.com/ShaniHalali/SDK_ADS_Android_Library).
+
+
+---
 ## 🌍 Get User's City Name for Location-Based Ads
 
 The SDK uses Android's location service to determine the user's city and fetch location-relevant ads.
